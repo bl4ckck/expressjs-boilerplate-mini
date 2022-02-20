@@ -1,0 +1,10 @@
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading"><%= user['Client.name'] %></h1>
+    <p class="lead text-muted"><%= user['email'] %></p>
+    <p class="lead text-muted"><%= user['Client.phone'] %></p>
+    <p>
+      <button class="btn btn-danger my-2" onClick="window.location='/api/v1/auth/logout?redirect=true'">Logout</button>
+    </p>
+  </div>
+</section>
