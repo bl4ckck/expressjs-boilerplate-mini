@@ -1,5 +1,6 @@
 const ClientsService = require('../services/clients.service');
 const responseHandler = require('../utils/responseHandler');
+const errMsg = require('../utils/errorMessage');
 
 class ClientsController {
   static async findAll(req, res, next) {
@@ -7,8 +8,7 @@ class ClientsController {
       const data = await ClientsService.findAll();
       return responseHandler(res, 200, data);
     } catch (error) {
-      res.status(400);
-      next(error);
+      next(errMsg(400, error, error.message));
     }
   }
 
@@ -17,8 +17,7 @@ class ClientsController {
       const data = await ClientsService.findAllRelUser();
       return responseHandler(res, 200, data);
     } catch (error) {
-      res.status(400);
-      next(error);
+      next(errMsg(400, error, error.message));
     }
   }
 }

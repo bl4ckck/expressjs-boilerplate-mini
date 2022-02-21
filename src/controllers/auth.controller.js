@@ -20,6 +20,10 @@ class AuthController {
     res.clearCookie('_acct', { path: COOKIE_CONFIG.path });
     return redirect ? res.redirect('/') : responseHandler(res, 200, { message: 'Logout success' });
   }
+
+  static checkPayload(req, res, next) {
+    return responseHandler(res, 200, { token: jwt.getPayloadCookies(req) });
+  }
 }
 
 module.exports = AuthController;

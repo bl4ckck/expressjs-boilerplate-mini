@@ -1,0 +1,82 @@
+components:
+  schemas:
+    ResponseHandler:
+      type: object
+      properties:
+        code:
+          type: number
+        data:
+          type: object
+      example:
+        code: 200
+        data: {}
+
+    Client:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        # role:
+        #   type: string
+        #   enum: [user, admin]
+      example: 200
+
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+      example:
+        token: eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA0OGY5ODU1LTFlYzctNGJkYi05NGFjLWY3YWY2ODQ5NGRiYSIsInJvbGVzIjoiQ0xJRU5UIiwiZW1haWwiOiJjbGllbnRAZ21haWwuY29tIiwiQ2xpZW50Lm5hbWUiOiJBbHZpbiBOYXVmYWwiLCJDbGllbnQucGhvbmUiOiIwODEyMzQ1Njc4IiwiaWF0IjoxNjQ1NDIyNDAwLCJleHAiOjE2NDU0MjYwMDB9.xbq9hSpurkw3Sn-Mt1w4zyAycxXCFqi82vXBTn1YWDMW2D-KB0FOhnWS-z2YTNiD
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        error:
+          type: object
+        message:
+          type: string
+
+  responses:
+    DuplicateEmail:
+      description: Email already taken
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: Email already taken
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 401
+            message: Please authenticate
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 403
+            message: Forbidden
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 404
+            message: Not found

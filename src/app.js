@@ -5,10 +5,7 @@ const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
 const session = require('express-session');
-
 const flash = require('connect-flash');
-const swaggerUI = require('swagger-ui-express');
-const docs = require('./docs');
 
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
@@ -52,8 +49,6 @@ passport.use(localAuth);
 app.use(flash());
 // Ejs route
 app.use(viewsRoute);
-// Documentation route
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 // API route
 app.use('/api/v1', apiRoute);
 

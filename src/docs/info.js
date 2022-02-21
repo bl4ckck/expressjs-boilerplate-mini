@@ -9,9 +9,6 @@ const swaggerInfo = {
     },
   },
   basePath: '/api/v1',
-  schemes: ['http', 'https'],
-  consumes: ['application/json'],
-  produces: ['application/json'],
 };
 
 module.exports = swaggerInfo;

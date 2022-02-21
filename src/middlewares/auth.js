@@ -2,6 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const UserServices = require('../services/users.service');
 
+const errorMsg = require('../utils/errorMessage');
 const bcrypt = require('../utils/bcrypt');
 const jwt = require('../utils/jwt');
 
@@ -27,8 +28,8 @@ const localAuth = new LocalStrategy(
       delete user['password'];
       // Return user
       return done(null, user);
-    } catch (err) {
-      return done(err);
+    } catch (error) {
+      return done(error);
     }
   }
 );
@@ -37,18 +38,18 @@ const localAuth = new LocalStrategy(
  * Middleware route login
  */
 const onLogin = (req, res, next) => {
-  passport.authenticate('local', { session: false }, (err, user, info) => {
+  passport.authenticate('local', { session: false }, (error, user, info) => {
     // Check if query redirect is exist
     const { redirect } = req.query;
     const msg = 'Authentication failed';
     // Error checking
-    if (err) {
-      req.flash('error', err.message);
-      return redirect ? res.redirect('/login') : next(err.message);
+    if (error) {
+      req.flash('error', error.message);
+      return redirect ? res.redirect('/login') : next(errorMsg(401, null, error.message));
     }
     if (!user) {
       req.flash('error', 'Email or password incorrect');
-      return redirect ? res.redirect('/login') : next(msg);
+      return redirect ? res.redirect('/login') : next(errorMsg(401, null, msg));
     }
     // Do Login
     req.user = user;
@@ -63,18 +64,19 @@ const onLogin = (req, res, next) => {
  */
 const tokenCheck = (isRedirect) => (req, res, next) => {
   const token = req.cookies._acct;
-  const msg = { message: 'Authorization failed' };
+  const msg = 'Authorization failed';
   // Check if cookie exist
   if (!token) {
-    req.flash('error', 'Login first');
-    return isRedirect ? res.redirect('/login') : next(msg);
+    req.flash('error', 'Please login');
+    return isRedirect ? res.redirect('/login') : next(errorMsg(403, null, msg));
   }
   // Check token & user ID
   const payload = jwt.verify(token);
   console.log(payload);
   if (!payload.id) {
-    req.flash('error', 'Login first');
-    return isRedirect ? res.redirect('/login') : next(msg);
+    //TODO: test this
+    req.flash('error', 'Please login');
+    return isRedirect ? res.redirect('/login') : next(errorMsg(403, null, msg));
   }
   // Valid
   return next();

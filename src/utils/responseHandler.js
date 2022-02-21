@@ -2,12 +2,12 @@
  *
  * * example: `responseHandler(res, 200, data);`
  * @param {any} res - response object
- * @param {number | undefined} status - status code
+ * @param {number} code - status code
  * @param {any} data - payload
- * @returns response object `{ status, data }`
+ * @returns response object `{ code, data }`
  *
  */
-const responseHandler = (res, status, data) =>
-  res.status(status).send({ status, data });
+const responseHandler = (res, code, data) =>
+  res.status(code).send({ code, data });
 
 module.exports = responseHandler;
